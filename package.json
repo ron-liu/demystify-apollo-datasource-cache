@@ -1,0 +1,15 @@
+{
+  "name": "try-apollo-data-source",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-datasource-rest": "^0.10.0",
+    "apollo-server": "^2.21.0",
+    "graphql": "^15.5.0",
+    "koa": "^2.13.1",
+    "koa-cache-control": "^2.0.0",
+    "koa-route": "^3.2.0",
+    "node-fetch": "^2.6.1"
+  }
+}
