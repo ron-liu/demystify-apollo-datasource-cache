@@ -11,14 +11,14 @@ const db = [
 const pets = {
   query: (ctx) => {
     console.log(`Hitting: pets/${ctx.query.query}`);
-    // ctx.set("Cache-Control", "max-age=60");
+    ctx.set("Cache-Control", "max-age=60");
     ctx.body = db
       .filter((x) => x.name.includes(ctx.query.query))
       .map((x) => x.id);
   },
   byId: (ctx, id) => {
     console.error(`Hitting: byId/${id}`);
-    // ctx.set("Cache-Control", "max-age=60");
+    ctx.set("Cache-Control", "max-age=60");
     const pet = db.find((x) => x.id == id);
     if (!pet) return ctx.throw("cannot find that pet", 404);
     ctx.body = pet;
