@@ -13,20 +13,6 @@ const typeDefs = gql`
   }
 `;
 
-class PetsAPI extends RESTDataSource {
-  constructor() {
-    super();
-    this.baseURL = "http://localhost:3000/";
-  }
-  async queryPets(query) {
-    return this.get(`pets/?query=${query}`);
-  }
-
-  async getPetById(id) {
-    return this.get(`pet/${id}`);
-  }
-}
-
 const resolvers = {
   Query: {
     pets: async (_source, { query }, { dataSources }) =>
@@ -51,11 +37,6 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  dataSources: () => {
-    return {
-      petsAPI: new PetsAPI(),
-    };
-  },
 });
 
 server.listen(4000).then(({ url }) => {
