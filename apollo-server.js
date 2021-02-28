@@ -1,6 +1,5 @@
 const { ApolloServer, gql } = require("apollo-server");
 const { RESTDataSource } = require("apollo-datasource-rest");
-const fetch = require("node-fetch");
 
 const typeDefs = gql`
   type Pet {
@@ -13,22 +12,32 @@ const typeDefs = gql`
   }
 `;
 
+class PetsAPI extends RESTDataSource {
+  constructor() {
+    super();
+    this.baseURL = "http://localhost:3000/";
+  }
+  async queryPets(query) {
+    return this.get(`pets/?query=${query}`);
+  }
+
+  async getPetById(id) {
+    return this.get(`pet/${id}`);
+  }
+}
+
 const resolvers = {
   Query: {
     pets: async (_source, { query }, { dataSources }) =>
-      fetch(`http://localhost:3000/pets?query=${query}`).then((x) => x.json()),
+      dataSources.petsAPI.queryPets(query),
   },
   Pet: {
     name: async (id, _args, { dataSources }) => {
-      const pet = await fetch(`http://localhost:3000/pet/${id}`).then((x) =>
-        x.json()
-      );
+      const pet = await dataSources.petsAPI.getPetById(id);
       return pet.name;
     },
     species: async (id, _args, { dataSources }) => {
-      const pet = await fetch(`http://localhost:3000/pet/${id}`).then((x) =>
-        x.json()
-      );
+      const pet = await dataSources.petsAPI.getPetById(id);
       return pet.species;
     },
   },
@@ -37,6 +46,11 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  dataSources: () => {
+    return {
+      petsAPI: new PetsAPI(),
+    };
+  },
 });
 
 server.listen(4000).then(({ url }) => {
