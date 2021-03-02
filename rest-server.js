@@ -23,9 +23,17 @@ const pets = {
     if (!pet) return ctx.throw("cannot find that pet", 404);
     ctx.body = pet;
   },
+  byIds: (ctx, idsString) => {
+    console.error(`Hitting: byIds/${idsString}`);
+    ctx.set("Cache-Control", "max-age=5");
+    const ids = idsString.split(",").map((x) => parseInt(x, 10));
+    const pets = db.filter((x) => ids.includes(x.id));
+    ctx.body = pets;
+  },
 };
 app.use(_.get("/pets", pets.query));
 app.use(_.get("/pet/:id", pets.byId));
+app.use(_.get("/pets/:idsString", pets.byIds));
 
 app.listen(3000);
 console.log("listening on port 3000");

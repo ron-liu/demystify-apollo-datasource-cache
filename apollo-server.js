@@ -1,5 +1,6 @@
 const { ApolloServer, gql } = require("apollo-server");
 const { RESTDataSource } = require("apollo-datasource-rest");
+const DataLoader = require("dataloader");
 
 const typeDefs = gql`
   type Pet {
@@ -16,13 +17,17 @@ class PetsAPI extends RESTDataSource {
   constructor() {
     super();
     this.baseURL = "http://localhost:3000/";
+    this.petsLoader = new DataLoader(async (keys) => {
+      const pets = await this.get(`pets/${keys.join(",")}`);
+      return keys.map((k) => pets.find((p) => p.id === k));
+    });
   }
   async queryPets(query) {
     return this.get(`pets/?query=${query}`);
   }
 
   async getPetById(id) {
-    return this.get(`pet/${id}`);
+    return this.petsLoader.load(id);
   }
 }
 

@@ -6,6 +6,7 @@
   "dependencies": {
     "apollo-datasource-rest": "^0.10.0",
     "apollo-server": "^2.21.0",
+    "dataloader": "^2.0.0",
     "graphql": "^15.5.0",
     "koa": "^2.13.1",
     "koa-cache-control": "^2.0.0",
