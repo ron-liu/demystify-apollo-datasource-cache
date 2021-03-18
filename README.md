@@ -40,7 +40,7 @@ There are 4 progressing branches:
 
   And please pay attention to the console log, as each rest api hitting will be printed in the screen.
 
-  ## Sum up
+## Sum up
 
 | Feature               | Apollo Rest Data Source                      | Dataloader |
 | --------------------- | -------------------------------------------- | ---------- |
