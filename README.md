@@ -1,6 +1,6 @@
 ## Why
 
-In apollo server, there exists rest datasource and dataloader. And it is always confused when we should use which.
+In apollo server, there exists rest datasource and dataloader. And it is always confusing which we should use.
 
 ## What inside this repo
 
